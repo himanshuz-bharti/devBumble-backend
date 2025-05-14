@@ -10,11 +10,6 @@ const cookie_parser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 const app = express();
 const cors = require('cors');
-app.use(cors({
-    origin:'https://dev-bumble-frontend.vercel.app',
-    methods:['GET','POST','PATCH','DELETE'],
-    credentials:true
-}));
 const {authRouter}=require('./routes/auth.js');
 const {profileRouter}=require('./routes/profile.js');
 const {requestRouter}=require('./routes/request.js');
@@ -22,6 +17,11 @@ const userRouter = require('./routes/user.js');
 
 app.use(express.json()); 
 app.use(cookie_parser());
+app.use(cors({
+    origin:'https://dev-bumble-frontend.vercel.app',
+    methods:['GET','POST','PATCH','DELETE'],
+    credentials:true
+}));
 
 app.use('/',authRouter);
 app.use('/',profileRouter);
