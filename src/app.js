@@ -27,6 +27,9 @@ app.use('/',authRouter);
 app.use('/',profileRouter);
 app.use('/',requestRouter);
 app.use('/',userRouter);
+app.get('/',(req,res)=>{
+    res.send('Hello from server');
+});
 app.get('/user',async(req,res)=>{
     try {
         const email = req.body.email;
