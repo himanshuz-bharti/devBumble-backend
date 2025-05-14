@@ -26,6 +26,7 @@ authRouter.post('/signup',async (req,res)=>{
             secure: true, // must be true for cross-site cookie
             maxAge: 24 * 60 * 60 * 1000 // 1 day
        });
+        console.log('Set-Cookie header:', res.getHeader('Set-Cookie'));
         res.send(founduser);
     } catch (error) {
         console.log(error);
