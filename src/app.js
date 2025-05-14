@@ -11,7 +11,7 @@ const jwt = require('jsonwebtoken');
 const app = express();
 const cors = require('cors');
 app.use(cors({
-    origin:'https://dev-bumble-frontend.vercel.app/',
+    origin:'https://dev-bumble-frontend.vercel.app',
     methods:['GET','POST','PATCH','DELETE'],
     allowedHeaders:['Content-Type','Authorization'],
     credentials:true
