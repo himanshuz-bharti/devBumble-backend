@@ -11,6 +11,8 @@ const app = express();
 const cors = require('cors');
 app.use(cors({
     origin:'http://localhost:5173',
+    methods:['GET','POST','PATCH','DELETE'],
+    allowedHeaders:['Content-Type','Authorization'],
     credentials:true
 }));
 const {authRouter}=require('./routes/auth.js');
