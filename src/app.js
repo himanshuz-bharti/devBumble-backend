@@ -13,7 +13,6 @@ const cors = require('cors');
 app.use(cors({
     origin:'https://dev-bumble-frontend.vercel.app',
     methods:['GET','POST','PATCH','DELETE'],
-    allowedHeaders:['Content-Type','Authorization'],
     credentials:true
 }));
 const {authRouter}=require('./routes/auth.js');

@@ -5,8 +5,8 @@ const userAuth = async (req,res,next)=>{
         const {token} = req.cookies;
         if(!token) throw new Error('Invalid token');
         //console.log(token);
-        const decode = await jwt.verify(token,'PWD@GMAIL.COM');
-        //console.log(decode);
+        const decode =  jwt.verify(token,process.env.JWT_SECRET);
+        console.log(decode);
         const {_id}=decode;
         const founduser = await UserModel.findById(_id);
         //console.log(founduser);
