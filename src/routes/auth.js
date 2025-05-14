@@ -23,7 +23,9 @@ authRouter.post('/signup',async (req,res)=>{
         res.cookie('token',token,{
             httpOnly: true,
             sameSite: 'None',
-            secure: true, // must be true for cross-site cookie
+            secure: true,
+            domain: '.vercel.app',    
+            path: '/',
             maxAge: 24 * 60 * 60 * 1000 // 1 day
        });
         console.log('Set-Cookie header:', res.getHeader('Set-Cookie'));
