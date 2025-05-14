@@ -20,6 +20,7 @@ authRouter.post('/signup',async (req,res)=>{
         const user = new Usermodel({firstname,lastname,email,gender,password:hasedpassword,age,isMarried,skills,about});
         const founduser = await user.save();
         const token=await founduser.getJWT();
+       res.clearCookie('token', { path: '/' });
         res.cookie('token',token,{
             httpOnly: true,
             sameSite: 'None',
@@ -48,6 +49,7 @@ authRouter.post('/login',async (req,res)=>{
             if(!checkpass) throw new Error('Invalid credentials');
             else{
                 const token=await founduser.getJWT();
+               res.clearCookie('token', { path: '/' });
                 res.cookie('token',token,{
                     httpOnly: true,
                     sameSite: 'None',
