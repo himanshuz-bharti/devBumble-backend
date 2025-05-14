@@ -21,7 +21,10 @@ authRouter.post('/signup',async (req,res)=>{
         const founduser = await user.save();
         const token=await founduser.getJWT();
         res.cookie('token',token,{
-            expires:new Date(Date.now()+8*320000)
+            httpOnly: true,
+            sameSite: 'None',
+            secure: true, // must be true for cross-site cookie
+            maxAge: 24 * 60 * 60 * 1000 // 1 day
        });
         res.send(founduser);
     } catch (error) {
@@ -43,7 +46,10 @@ authRouter.post('/login',async (req,res)=>{
             else{
                 const token=await founduser.getJWT();
                 res.cookie('token',token,{
-                    expires:new Date(Date.now()+8*320000)
+                    httpOnly: true,
+                    sameSite: 'None',
+                    secure: true, // must be true for cross-site cookie
+                    maxAge: 24 * 60 * 60 * 1000 // 1 day
                 });
                 res.send(founduser);
             }
