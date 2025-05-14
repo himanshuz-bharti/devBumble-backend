@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express')
 const {dbconnect} = require('./config/database.js');
 const Usermodel = require('./models/users.js');
@@ -10,7 +11,7 @@ const jwt = require('jsonwebtoken');
 const app = express();
 const cors = require('cors');
 app.use(cors({
-    origin:'http://localhost:5173',
+    origin:process.env.ALLOWED_ORIGINS,
     methods:['GET','POST','PATCH','DELETE'],
     allowedHeaders:['Content-Type','Authorization'],
     credentials:true
@@ -69,8 +70,8 @@ app.patch('/user',async(req,res)=>{
 })
 dbconnect().then(()=>{
     console.log('Database connected ');
-    app.listen(3000,()=>{
-        console.log('Server listening');
+    app.listen(process.env.PORT,()=>{
+        console.log('Server listening',process.env.PORT);
     })
  }).catch((err)=>{
     console.error('Database not connected',err.message)

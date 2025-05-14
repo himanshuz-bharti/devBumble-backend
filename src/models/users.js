@@ -67,7 +67,7 @@ const userSchema = new Schema({
 });
 userSchema.methods.getJWT = async function(){
     const user = this;
-    const token = await jwt.sign({_id:user._id},'PWD@GMAIL.COM',{expiresIn:'2d'});
+    const token = jwt.sign({_id:user._id},process.env.JWT_SECRET,{expiresIn:'2d'});
     return token;
 }
 
