@@ -1,10 +1,11 @@
+require('dotenv').config();
 const socket = require('socket.io');
 const {chatModel} = require('../models/chat.js');
 
 const initializeSocket = (server) =>{
     const io = socket(server,{
         cors:{
-            origin:'http://localhost:5173',
+            origin:process.env.CLIENT_URL,
         }
     })
     io.on('connection',  (socket)=>{
