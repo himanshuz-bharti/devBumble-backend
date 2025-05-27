@@ -14,12 +14,14 @@ authRouter.post('/signup',async (req,res)=>{
        // console.log(userobj);
        const {firstname,lastname,email,password,gender,age,isMarried,skills,about}=userobj;
        ValidateSignUpData(req.body);
-
+        const userexists = await Usermodel.findOne({email});
+        if(userexists) throw new Error('A user wth this mail already exiats')
         const hasedpassword = await bcrypt.hash(password,10);
        // console.log(hasedpassword)
         const user = new Usermodel({firstname,lastname,email,gender,password:hasedpassword,age,isMarried,skills,about});
         const founduser = await user.save();
         const token=await founduser.getJWT();
+        res.clearCookie('token', { path: '/' });
         res.cookie('token',token,{
             httpOnly: true,
             sameSite: 'None',
@@ -46,6 +48,7 @@ authRouter.post('/login',async (req,res)=>{
             if(!checkpass) throw new Error('Invalid credentials');
             else{
                 const token=await founduser.getJWT();
+                res.clearCookie('token', { path: '/' });
                 res.cookie('token',token,{
                     httpOnly: true,
                     sameSite: 'None',

@@ -14,11 +14,15 @@ const {authRouter}=require('./routes/auth.js');
 const {profileRouter}=require('./routes/profile.js');
 const {requestRouter}=require('./routes/request.js');
 const userRouter = require('./routes/user.js');
-
+const {chatRouter} = require('./routes/chat.js');
+const {initializeSocket} = require('./utils/socket.js');
+const http = require('http');
+const server = http.createServer(app);
+initializeSocket(server);
 app.use(express.json()); 
 app.use(cookie_parser());
 app.use(cors({
-    origin:'https://dev-bumble-frontend.vercel.app',
+    origin:'http://localhost:5173',
     methods:['GET','POST','PATCH','DELETE'],
     credentials:true
 }));
@@ -27,6 +31,7 @@ app.use('/',authRouter);
 app.use('/',profileRouter);
 app.use('/',requestRouter);
 app.use('/',userRouter);
+app.use('/',chatRouter);
 app.get('/',(req,res)=>{
     res.send('Hello from server');
 });
@@ -72,7 +77,7 @@ app.patch('/user',async(req,res)=>{
 })
 dbconnect().then(()=>{
     console.log('Database connected ');
-    app.listen(process.env.PORT,()=>{
+    server.listen(process.env.PORT,()=>{
         console.log('Server listening',process.env.PORT);
     })
  }).catch((err)=>{

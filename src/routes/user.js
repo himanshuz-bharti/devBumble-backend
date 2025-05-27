@@ -64,5 +64,28 @@ userRouter.get('/user/feed',userAuth,async(req,res)=>{
 })
 
 
-
+userRouter.get('/user/:id',userAuth,async (req, res) => {
+  try {
+    const recieverId = req.params.id;
+    const user = await Usermodel.findById(recieverId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    const isFriend = await ConnectionRequestModel.findOne({
+      $or: [
+        { senderID: req.user._id, recieverID: req.params.id, status: 'accepted' },
+        { senderID: req.params.id, recieverID: req.user._id, status: 'accepted' },
+      ],
+    });
+    res.json({
+      firstname: user.firstname,
+      lastname: user.lastname,
+      photourl: user.photourl,
+      isFriend: !!isFriend, // Convert to boolean
+    });
+  } catch (error) {
+    console.error('Error fetching user details:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
 module.exports=userRouter;

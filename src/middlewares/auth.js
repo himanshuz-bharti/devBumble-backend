@@ -2,13 +2,11 @@ const jwt= require('jsonwebtoken');
 const UserModel = require('../models/users.js');
 const userAuth = async (req,res,next)=>{
     try {
-        console.log('parsed req.cookies →', req.cookies);
-    console.log('raw req.headers.cookie →', req.headers.cookie);
+        
         const {token} = req.cookies;
         if(!token) throw new Error('Invalid token');
         //console.log(token);
         const decode =  jwt.verify(token,process.env.JWT_SECRET);
-        console.log(decode);
         const {_id}=decode;
         const founduser = await UserModel.findById(_id);
         //console.log(founduser);
